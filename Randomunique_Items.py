@@ -1,70 +1,44 @@
 from random import randint
 
+    ## ## Make list  to take elements from. ## ## 
 
-def make_range_shorter(nums, idx, mini, maxi):
-    while mini in nums and nums.index(mini) in idx or mini not in nums:
-        if nums.count(mini) > 0:
-            cn = 0
-            for i in range(len(nums)):
-                if nums[i] == mini and i in idx:
-                    cn += 1
-                else:
-                    break
-            if cn == nums.count(mini):
-                mini += 1
-            else:
-                break
-        else:
-            mini += 1
-    while maxi in nums and nums.index(maxi) in idx or maxi not in nums:
-        if nums.count(maxi) > 0:
-            cn = 0
-            for i in range(len(nums)):
-                if nums[i] == maxi and i in idx:
-                    cn += 1
-                else:
-                    break
-            if cn == nums.count(maxi):
-                maxi -= 1
-            else:
-                break
-        else:
-            maxi -= 1
-    return mini, maxi
+    
+print('Enter the list items on one line separated by a space:', end=' ')
+input_list = [m for m in input().split()]
+N = len(input_list)
 
 
-def take_elements(k):
-    in_l = [int(m) for m in '1 2 3 4 5 6 7 8 9'.split()]
-    minimal, maximal = min(in_l), max(in_l)
-    out_l, idx_l  = [], []
-    steps = 0
-    if 0 < k <= len(in_l):
-        cnt = 0
-        while cnt < k:
-            e = randint(minimal, maximal)
-            steps += 1
-            if e in in_l:
-                if in_l.index(e) not in idx_l:
-                    out_l.append(e)
-                    idx_l.append(in_l.index(e))
-                    cnt += 1
-                elif in_l.count(e) > 1:
-                    tmp_cnt = in_l.count(e)
-                    tmp_idx = in_l.index(e) + 1
-                    for j in range(tmp_cnt):
-                        if (in_l[tmp_idx:].index(e) - tmp_idx) not in idx_l:
-                            out_l.append(e)
-                            idx_l.append(in_l[tmp_idx:].index(e))
-                            cnt += 1
-                            break
-                        else:
-                            tmp_idx = in_l[tmp_idx:].index(e)
-            minimal, maximal = make_range_shorter(in_l, idx_l, minimal, maximal)
-        print('List:', out_l, k, 'elems takes in', steps, 'steps.')
-    else:
-        print('Invalid request')
+    ## ## Enter len of final list. ## ## 
+
+print('Enter the number of elements to sample:', end=' ')
+k = int(input())
 
 
-for i in range(1, 10):
-    take_elements(i)
-print('Complete.')
+    ## ## Prepear to accounting. ## ##
+    
+if 0 <= k <= N:                         # check added
+    output_list = []                    # list to display elements
+    index_list = []                     # list for accounting added indexes
+    steps = 0                           # cicle counter
+
+    
+    ## ## Cicle ending only after founding entered number of elements. ## ## 
+        
+    while len(output_list) != k:
+        index = randint(0, N - 1)
+        steps += 1                      #scored how much cicles done to find all
+        if index not in index_list:
+            index_list.append(index)
+            output_list.append(input_list[index])
+          
+        
+    ## ## Print result of a programm. ## ##
+            
+    print('List:', output_list, 'make in', steps, 'steps')
+    print("algorithm complexity: O(N**2) =", N**2)
+    
+    
+    ## ## If entered number is more then len of input_list ## ##
+    
+else:
+    print('Invalid input. Try one more times')
